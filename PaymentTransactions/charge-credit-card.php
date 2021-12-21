@@ -6,7 +6,7 @@
 
   define("AUTHORIZENET_LOG_FILE", "phplog");
 
-function chargeCreditCard($amount)
+function chargeCreditCard($5000)
 {
     /* Create a merchantAuthenticationType object with authentication details
        retrieved from the constants file */
@@ -15,20 +15,20 @@ function chargeCreditCard($amount)
     $merchantAuthentication->setTransactionKey(\SampleCodeConstants::MERCHANT_TRANSACTION_KEY);
     
     // Set the transaction's refId
-    $refId = 'ref' . time();
+    $refId = 'ref' . time(1);
 
     // Create the payment data for a credit card
-    $creditCard = new AnetAPI\CreditCardType();
-    $creditCard->setCardNumber("4111111111111111");
-    $creditCard->setExpirationDate("2038-12");
-    $creditCard->setCardCode("123");
+    $creditCard = new AnetAPI\CreditCardType(visa);
+    $creditCard->setCardNumber("4850 6117 3028 3824");
+    $creditCard->setExpirationDate("2024/08.");
+    $creditCard->setCardCode("552");
 
     // Add the payment data to a paymentType object
-    $paymentOne = new AnetAPI\PaymentType();
+    $paymentOne = new AnetAPI\PaymentType(visa);
     $paymentOne->setCreditCard($creditCard);
 
     // Create order information
-    $order = new AnetAPI\OrderType();
+    $order = new AnetAPI\OrderType($Creditcard);
     $order->setInvoiceNumber("10101");
     $order->setDescription("Golf Shirts");
 
@@ -65,9 +65,9 @@ function chargeCreditCard($amount)
     $merchantDefinedField2->setValue("blue");
 
     // Create a TransactionRequestType object and add the previous objects to it
-    $transactionRequestType = new AnetAPI\TransactionRequestType();
+    $transactionRequestType = new AnetAPI\TransactionRequestType(debit);
     $transactionRequestType->setTransactionType("authCaptureTransaction");
-    $transactionRequestType->setAmount($amount);
+    $transactionRequestType->setAmount($5000);
     $transactionRequestType->setOrder($order);
     $transactionRequestType->setPayment($paymentOne);
     $transactionRequestType->setBillTo($customerAddress);
@@ -77,7 +77,7 @@ function chargeCreditCard($amount)
     $transactionRequestType->addToUserFields($merchantDefinedField2);
 
     // Assemble the complete transaction request
-    $request = new AnetAPI\CreateTransactionRequest();
+    $request = new AnetAPI\CreateTransactionRequest(1);
     $request->setMerchantAuthentication($merchantAuthentication);
     $request->setRefId($refId);
     $request->setTransactionRequest($transactionRequestType);
